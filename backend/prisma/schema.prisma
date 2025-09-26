@@ -1,0 +1,145 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum CategoryName {
+  ENTERTAINMENT
+  BILLS
+  GROCERIES
+  DINING_OUT
+  TRANSPORTATION
+  PERSONAL_CARE
+  EDUCATION
+  INCOME
+  MEDICAL
+  SUBSCRIPTIONS
+  SAVINGS
+  GIFTS
+  MISCELLANEOUS
+}
+
+model User {
+  id String @id @default(uuid())
+  name String @db.VarChar(100)
+  photoUrl String? @db.VarChar(150)
+  email String @db.VarChar(100) @unique
+
+  transactionsSent Transaction[] @relation("sentTransactions")
+  transactionsReceived Transaction[] @relation("receivedTransactions")
+  budgets Budget[]
+  pots Pot[]
+  potDeposits PotDeposit[]
+  bills Bill[]
+}
+
+model Category {
+  id String @id @default(uuid())
+  name CategoryName
+
+  transactions Transaction[]
+  budgets Budget[]
+  pots Pot[]
+  bills Bill[]
+}
+
+model Transaction {
+  id String @id @default(uuid())
+  amount Float
+  transactionDate DateTime @default(now())
+  senderId String
+  recipientId String
+  categoryId String
+
+  sender User @relation("sentTransactions", fields: [senderId], references: [id])
+  recipient User @relation("receivedTransactions", fields: [recipientId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+  potDeposits PotDeposit[]
+  billPayments BillPayment[]
+
+  @@index([senderId])
+  @@index([recipientId])
+  @@index([categoryId])
+}
+
+model Budget {
+  id String @id @default(uuid())
+  maxSpending Float
+  theme String?
+  userId String
+  categoryId String
+
+  user User @relation(fields: [userId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+
+  @@unique([userId, categoryId])
+  @@index([userId])
+  @@index([categoryId])
+}
+
+model Pot {
+  id String @id @default(uuid())
+  name String
+  targetAmount Float
+  theme String?
+  userId String
+  categoryId String
+
+  user User @relation(fields: [userId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+  deposits PotDeposit[]
+
+  @@index([userId])
+  @@index([categoryId])
+}
+
+model PotDeposit {
+  id String @id @default(uuid())
+  amount Float
+  depositDate DateTime @default(now())
+  potId String
+  userId String
+  transactionId String?
+
+  pot Pot @relation(fields: [potId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+  transaction Transaction? @relation(fields: [transactionId], references: [id])
+
+  @@index([potId])
+  @@index([userId])
+}
+
+model Bill {
+  id String @id @default(uuid())
+  name String
+  amount Float
+  dueDate DateTime
+  status String?
+  userId String
+  categoryId String
+
+  user User @relation(fields: [userId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+  payments BillPayment[]
+
+  @@index([userId])
+  @@index([categoryId])
+}
+
+model BillPayment {
+  id String @id @default(uuid())
+  amount Float
+  paymentDate DateTime @default(now())
+  billId String
+  transactionId String?
+
+  bill Bill @relation(fields: [billId], references: [id])
+  transaction Transaction? @relation(fields: [transactionId], references: [id])
+
+  @@index([billId])
+  @@index([transactionId])
+}
