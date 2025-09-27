@@ -67,10 +67,15 @@ export class BudgetService {
     });
   }
 
-  async getUserBudgets(userId: string) {
-    console.log(userId);
+  async getUserBudgets(sub: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { cognitoSub: sub },
+    });
+
+    if (!user) throw new Error('No user found');
+
     return this.prisma.budget.findMany({
-      where: { userId },
+      where: { userId: user.id },
       include: {
         user: { select: { name: true } },
         category: { select: { name: true } },
