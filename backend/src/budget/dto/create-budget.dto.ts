@@ -14,9 +14,5 @@ export class CreateBudgetDto {
 
   @IsString()
   @IsNotEmpty()
-  userId: string;
-
-  @IsString()
-  @IsNotEmpty()
   categoryId: string;
 }

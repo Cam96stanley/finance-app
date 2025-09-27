@@ -6,13 +6,19 @@ import { CreateBudgetDto, UpdateBudgetDto } from './dto';
 export class BudgetService {
   constructor(private prisma: PrismaService) {}
 
-  async createBudget(dto: CreateBudgetDto) {
+  async createBudget(sub: string, dto: CreateBudgetDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { cognitoSub: sub },
+    });
+
+    if (!user) throw Error('No user found');
+
     return this.prisma.budget.create({
       data: {
         name: dto.name,
         maxSpending: dto.maxSpending,
         theme: dto.theme,
-        userId: dto.userId,
+        userId: user.id,
         categoryId: dto.categoryId,
       },
       include: {

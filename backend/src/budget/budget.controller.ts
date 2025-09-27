@@ -18,8 +18,11 @@ export class BudgetController {
 
   @Post('create-budget')
   @HttpCode(HttpStatus.CREATED)
-  createBudget(@Body() dto: CreateBudgetDto) {
-    return this.budgetService.createBudget(dto);
+  createBudget(
+    @GetCurrentUser() user: CognitoUser,
+    @Body() dto: CreateBudgetDto,
+  ) {
+    return this.budgetService.createBudget(user.sub, dto);
   }
 
   @Patch(':budgetId')
