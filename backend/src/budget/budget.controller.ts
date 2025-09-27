@@ -40,4 +40,13 @@ export class BudgetController {
   getUserBudgets(@GetCurrentUser() user: CognitoUser) {
     return this.budgetService.getUserBudgets(user.sub);
   }
+
+  @Get(':budgetId')
+  @HttpCode(HttpStatus.OK)
+  getBudget(
+    @Param('budgetId') budgetId: string,
+    @GetCurrentUser() user: CognitoUser,
+  ) {
+    return this.budgetService.getBudget(budgetId, user.sub);
+  }
 }

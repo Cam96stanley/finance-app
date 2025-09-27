@@ -82,4 +82,16 @@ export class BudgetService {
       },
     });
   }
+
+  async getBudget(budgetId: string, sub: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { cognitoSub: sub },
+    });
+
+    if (!user) throw new Error('No user found');
+
+    return this.prisma.budget.findFirst({
+      where: { userId: user.id, id: budgetId },
+    });
+  }
 }
