@@ -8,12 +8,17 @@ export type CognitoUser = JwtPayload & {
 };
 
 export const GetCurrentUser = createParamDecorator(
-  (property: string | undefined, context: ExecutionContext): unknown => {
+  (
+    property: string | undefined,
+    context: ExecutionContext,
+  ): CognitoUser | null => {
     const request = context.switchToHttp().getRequest<{ user?: CognitoUser }>();
     const user = request.user;
 
     if (!user) return null;
 
-    return property ? user[property as keyof CognitoUser] : user;
+    return property
+      ? (user[property as keyof CognitoUser] as unknown as CognitoUser)
+      : user;
   },
 );

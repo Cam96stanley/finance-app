@@ -25,6 +25,7 @@ enum CategoryName {
 
 model User {
   id String @id @default(uuid())
+  cognitoSub String @unique
   name String @db.VarChar(100)
   photoUrl String? @db.VarChar(150)
   email String @db.VarChar(100) @unique

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Param,
@@ -9,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { BudgetService } from './budget.service';
 import { CreateBudgetDto, UpdateBudgetDto } from './dto';
+import { type CognitoUser, GetCurrentUser } from 'src/common/decorators';
 
 @Controller('budget')
 export class BudgetController {
@@ -27,5 +29,11 @@ export class BudgetController {
     @Body() dto: UpdateBudgetDto,
   ) {
     return this.budgetService.updateBudget(budgetId, dto);
+  }
+
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  getUserBudgets(@GetCurrentUser() user: CognitoUser) {
+    return this.budgetService.getUserBudgets(user.sub);
   }
 }

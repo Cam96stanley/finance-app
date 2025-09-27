@@ -1,5 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import {
+  AdminGetUserCommand,
   AdminInitiateAuthCommand,
   AuthFlowType,
   CognitoIdentityProviderClient,
@@ -44,10 +45,23 @@ export class AuthService {
 
       await this.client.send(command);
 
+      const getUserCommand = new AdminGetUserCommand({
+        UserPoolId: this.userPoolId,
+        Username: dto.email,
+      });
+      const userResult = await this.client.send(getUserCommand);
+
+      const sub = userResult.UserAttributes?.find(
+        (attr) => attr.Name === 'sub',
+      )?.Value;
+
+      if (!sub) throw new Error('Failed to retrieve Cognito Sub');
+
       await this.prisma.user.create({
         data: {
           email: dto.email,
           name: dto.name,
+          cognitoSub: sub,
         },
       });
 

@@ -42,4 +42,15 @@ export class BudgetService {
       },
     });
   }
+
+  async getUserBudgets(userId: string) {
+    console.log(userId);
+    return this.prisma.budget.findMany({
+      where: { userId },
+      include: {
+        user: { select: { name: true } },
+        category: { select: { name: true } },
+      },
+    });
+  }
 }
