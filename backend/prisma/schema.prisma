@@ -69,6 +69,7 @@ model Transaction {
 
 model Budget {
   id String @id @default(uuid())
+  name String
   maxSpending Float
   theme String?
   userId String

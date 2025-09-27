@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateBudgetDto } from './dto';
+import { CreateBudgetDto, UpdateBudgetDto } from './dto';
 
 @Injectable()
 export class BudgetService {
@@ -9,6 +9,7 @@ export class BudgetService {
   async createBudget(dto: CreateBudgetDto) {
     return this.prisma.budget.create({
       data: {
+        name: dto.name,
         maxSpending: dto.maxSpending,
         theme: dto.theme,
         userId: dto.userId,
@@ -25,6 +26,19 @@ export class BudgetService {
             name: true,
           },
         },
+      },
+    });
+  }
+
+  async updateBudget(budgetId: string, dto: UpdateBudgetDto) {
+    return this.prisma.budget.update({
+      where: { id: budgetId },
+      data: {
+        ...dto,
+      },
+      include: {
+        user: { select: { name: true } },
+        category: { select: { name: true } },
       },
     });
   }

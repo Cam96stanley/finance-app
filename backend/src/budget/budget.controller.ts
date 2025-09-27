@@ -1,6 +1,14 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { BudgetService } from './budget.service';
-import { CreateBudgetDto } from './dto';
+import { CreateBudgetDto, UpdateBudgetDto } from './dto';
 
 @Controller('budget')
 export class BudgetController {
@@ -10,5 +18,14 @@ export class BudgetController {
   @HttpCode(HttpStatus.CREATED)
   createBudget(@Body() dto: CreateBudgetDto) {
     return this.budgetService.createBudget(dto);
+  }
+
+  @Patch(':budgetId')
+  @HttpCode(HttpStatus.OK)
+  updateBudget(
+    @Param('budgetId') budgetId: string,
+    @Body() dto: UpdateBudgetDto,
+  ) {
+    return this.budgetService.updateBudget(budgetId, dto);
   }
 }
