@@ -3,6 +3,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { BudgetModule } from './budget/budget.module';
+import { TransactionModule } from './transaction/transaction.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { BudgetModule } from './budget/budget.module';
     AuthModule,
     PrismaModule,
     BudgetModule,
+    TransactionModule,
   ],
   controllers: [],
   providers: [],
