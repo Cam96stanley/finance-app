@@ -28,6 +28,7 @@ model User {
   name String @db.VarChar(100)
   photoUrl String? @db.VarChar(150)
   email String @db.VarChar(100) @unique
+  isConfirmed Boolean @default(false)
 
   transactionsSent Transaction[] @relation("sentTransactions")
   transactionsReceived Transaction[] @relation("receivedTransactions")
