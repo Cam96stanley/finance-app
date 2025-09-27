@@ -28,10 +28,11 @@ export class BudgetController {
   @Patch(':budgetId')
   @HttpCode(HttpStatus.OK)
   updateBudget(
+    @GetCurrentUser() user: CognitoUser,
     @Param('budgetId') budgetId: string,
     @Body() dto: UpdateBudgetDto,
   ) {
-    return this.budgetService.updateBudget(budgetId, dto);
+    return this.budgetService.updateBudget(user.sub, budgetId, dto);
   }
 
   @Get()

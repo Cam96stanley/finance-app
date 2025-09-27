@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateBudgetDto, UpdateBudgetDto } from './dto';
 
@@ -36,7 +36,25 @@ export class BudgetService {
     });
   }
 
-  async updateBudget(budgetId: string, dto: UpdateBudgetDto) {
+  async updateBudget(sub: string, budgetId: string, dto: UpdateBudgetDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { cognitoSub: sub },
+    });
+
+    if (!user) throw new Error('No user found');
+
+    const budget = await this.prisma.budget.findUnique({
+      where: { id: budgetId },
+    });
+
+    if (!budget) throw new Error('No budget found');
+
+    if (budget.userId !== user.id) {
+      throw new UnauthorizedException(
+        'You are not authorized to update this budget!',
+      );
+    }
+
     return this.prisma.budget.update({
       where: { id: budgetId },
       data: {
