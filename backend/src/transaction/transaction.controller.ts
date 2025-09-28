@@ -1,4 +1,12 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { type CognitoUser, GetCurrentUser } from 'src/common/decorators';
 import { CreateTransactionDto } from './dto';
@@ -14,5 +22,14 @@ export class TransactionController {
     @Body() dto: CreateTransactionDto,
   ) {
     return this.transactionService.createTransaction(user.sub, dto);
+  }
+
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  getTransactions(
+    @GetCurrentUser() user: CognitoUser,
+    @Query('categoryId') categoryId?: string,
+  ) {
+    return this.transactionService.getTransactions(user.sub, categoryId);
   }
 }

@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateTransactionDto } from './dto';
 
@@ -67,5 +71,24 @@ export class TransactionService {
     });
 
     return { transaction };
+  }
+
+  async getTransactions(sub: string, categoryId?: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { cognitoSub: sub },
+    });
+
+    if (!user) throw new NotFoundException('No user found');
+
+    return this.prisma.transaction.findMany({
+      where: {
+        senderId: user.id,
+        ...(categoryId && { categoryId }),
+      },
+      include: {
+        recipient: { select: { name: true } },
+        category: { select: { name: true } },
+      },
+    });
   }
 }
