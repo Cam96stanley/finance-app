@@ -88,6 +88,7 @@ model Pot {
   id String @id @default(uuid())
   name String
   targetAmount Float
+  runningTotal Float @default(0)
   theme String?
   userId String
   categoryId String
