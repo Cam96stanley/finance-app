@@ -50,4 +50,10 @@ export class PotService {
       where: { userId: user.id },
     });
   }
+
+  async deletePot(potId: string) {
+    return this.prisma.pot.delete({
+      where: { id: potId },
+    });
+  }
 }

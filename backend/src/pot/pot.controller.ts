@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -36,5 +37,11 @@ export class PotController {
   @HttpCode(HttpStatus.OK)
   getPots(@GetCurrentUser() user: CognitoUser) {
     return this.potService.getPots(user.sub);
+  }
+
+  @Delete(':potId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  deletePot(@Param('potId') potId: string) {
+    return this.potService.deletePot(potId);
   }
 }
