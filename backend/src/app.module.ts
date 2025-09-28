@@ -5,6 +5,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { BudgetModule } from './budget/budget.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { PotModule } from './pot/pot.module';
+import { PotTransactionModule } from './pot-transaction/pot-transaction.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { PotModule } from './pot/pot.module';
     BudgetModule,
     TransactionModule,
     PotModule,
+    PotTransactionModule,
   ],
   controllers: [],
   providers: [],
