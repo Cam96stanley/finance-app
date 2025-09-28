@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreatePotDto } from './dto';
+import { CreatePotDto, UpdatePotDto } from './dto';
 
 @Injectable()
 export class PotService {
@@ -20,6 +20,21 @@ export class PotService {
         userId: user.id,
         theme: dto.theme,
         categoryId: dto.categoryId,
+      },
+    });
+  }
+
+  async updatePot(potId: string, sub: string, dto: UpdatePotDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { cognitoSub: sub },
+    });
+
+    if (!user) throw new NotFoundException('No user found');
+
+    return this.prisma.pot.update({
+      where: { userId: user.id, id: potId },
+      data: {
+        ...dto,
       },
     });
   }

@@ -4,10 +4,12 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { PotService } from './pot.service';
-import { CreatePotDto } from './dto';
+import { CreatePotDto, UpdatePotDto } from './dto';
 import { type CognitoUser, GetCurrentUser } from 'src/common/decorators';
 
 @Controller('pot')
@@ -18,6 +20,16 @@ export class PotController {
   @HttpCode(HttpStatus.CREATED)
   createPot(@GetCurrentUser() user: CognitoUser, @Body() dto: CreatePotDto) {
     return this.potService.createPot(user.sub, dto);
+  }
+
+  @Patch(':potId')
+  @HttpCode(HttpStatus.OK)
+  updaetPot(
+    @Param('potId') potId: string,
+    @GetCurrentUser() user: CognitoUser,
+    @Body() dto: UpdatePotDto,
+  ) {
+    return this.potService.updatePot(potId, user.sub, dto);
   }
 
   @Get()
