@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateBudgetDto, UpdateBudgetDto } from './dto';
 
@@ -92,6 +96,18 @@ export class BudgetService {
 
     return this.prisma.budget.findFirst({
       where: { userId: user.id, id: budgetId },
+    });
+  }
+
+  async deleteBudget(sub: string, budgetId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { cognitoSub: sub },
+    });
+
+    if (!user) throw new NotFoundException('No user found');
+
+    return this.prisma.budget.delete({
+      where: { id: budgetId, userId: user.id },
     });
   }
 }

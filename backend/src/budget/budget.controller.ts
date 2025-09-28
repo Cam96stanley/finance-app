@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -48,5 +49,14 @@ export class BudgetController {
     @GetCurrentUser() user: CognitoUser,
   ) {
     return this.budgetService.getBudget(budgetId, user.sub);
+  }
+
+  @Delete(':budgetId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  deleteBudget(
+    @Param('budgetId') budgetId: string,
+    @GetCurrentUser() user: CognitoUser,
+  ) {
+    return this.budgetService.deleteBudget(user.sub, budgetId);
   }
 }
