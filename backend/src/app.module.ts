@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { BudgetModule } from './budget/budget.module';
 import { TransactionModule } from './transaction/transaction.module';
+import { PotModule } from './pot/pot.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { TransactionModule } from './transaction/transaction.module';
     PrismaModule,
     BudgetModule,
     TransactionModule,
+    PotModule,
   ],
   controllers: [],
   providers: [],
