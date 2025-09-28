@@ -32,4 +32,13 @@ export class TransactionController {
   ) {
     return this.transactionService.getTransactions(user.sub, categoryId);
   }
+
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  getTransactionsForBudget(
+    @GetCurrentUser() user: CognitoUser,
+    budgetId: string,
+  ) {
+    return this.transactionService.getTransactionsForBudget(user.sub, budgetId);
+  }
 }

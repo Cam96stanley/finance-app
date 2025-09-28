@@ -91,4 +91,19 @@ export class TransactionService {
       },
     });
   }
+
+  async getTransactionsForBudget(sub: string, budgetId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { cognitoSub: sub },
+    });
+
+    if (!user) throw new NotFoundException('No user found');
+
+    return this.prisma.transaction.findMany({
+      where: {
+        id: budgetId,
+        senderId: user.id,
+      },
+    });
+  }
 }
