@@ -1,6 +1,44 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState, type ChangeEvent } from 'react';
+import { signIn } from '../api/authApi';
+
+type SignInType = {
+  email: string;
+  password: string;
+};
 
 export const LoginPage = () => {
+  const [signInData, setSignInData] = useState<SignInType>({
+    email: '',
+    password: '',
+  });
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setSignInData((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const res = await signIn(signInData);
+
+      localStorage.setItem('token', res.data.token);
+
+      navigate('/dashboard');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
       <header className="lg:hidden bg-gray-900 rounded-b-md p-3">
@@ -31,7 +69,10 @@ export const LoginPage = () => {
         </div>
       </div>
       <div className="flex flex-1 justify-center items-center p-6">
-        <form className="bg-white rounded-xl flex flex-col w-full md:max-w-[60%] lg:min-w-[70%] p-6">
+        <form
+          className="bg-white rounded-xl flex flex-col w-full md:max-w-[60%] lg:min-w-[70%] p-6"
+          onSubmit={handleSubmit}
+        >
           <p className="text-3xl font-bold mb-8">Login</p>
           <label
             className="text-sm font-bold text-gray-500 mb-2"
@@ -43,6 +84,8 @@ export const LoginPage = () => {
             className="border-1 px-2 py-1 rounded-md mb-4"
             id="email"
             type="email"
+            value={signInData.email}
+            onChange={handleChange}
             required
           />
           <label
@@ -55,15 +98,18 @@ export const LoginPage = () => {
             className="border-1 px-2 py-1 rounded-md"
             id="password"
             type="password"
+            value={signInData.password}
+            onChange={handleChange}
             required
           />
-          <button className="bg-gray-900 mt-8 text-white py-2 rounded-md">
+          {error && <p className="text-red-500">{error}</p>}
+          <button className="bg-gray-900 mt-8 text-white py-2 rounded-md cursor-pointer">
             Login
           </button>
           <p className="text-xs font-bold text-gray-500 text-center mt-4">
             Need to create an account?{' '}
             <Link
-              className="underline text-xs font-bold text-gray-500"
+              className="underline text-xs font-bold text-gray-500 cursor-pointer"
               to={'/signup'}
             >
               Sign Up
