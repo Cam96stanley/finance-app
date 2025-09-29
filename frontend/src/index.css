@@ -4,6 +4,7 @@
 @theme {
   --font-publicSans: 'Public Sans', sans-serif;
   --color-beige-100: #f8f4f0;
+  --color-green: #277c78;
 }
 
 body {
