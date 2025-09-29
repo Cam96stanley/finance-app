@@ -1,25 +1,24 @@
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, type ChangeEvent } from 'react';
-import { Link } from 'react-router-dom';
-import { signUp } from '../api/authApi';
+import { confirmEmail } from '../api/authApi';
 
-type SignupData = {
-  name: string;
+type ConfirmEmailType = {
   email: string;
-  password: string;
+  code: string;
 };
 
-export const SignupPage = () => {
-  const [signupData, setSignupData] = useState<SignupData>({
-    name: '',
+export const ConfirmEmailPage = () => {
+  const [confirmEmailData, setConfirmEmailData] = useState<ConfirmEmailType>({
     email: '',
-    password: '',
+    code: '',
   });
-  const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setSignupData((prev) => ({
+    setConfirmEmailData((prev) => ({
       ...prev,
       [id]: value,
     }));
@@ -29,9 +28,11 @@ export const SignupPage = () => {
     e.preventDefault();
 
     try {
-      const res = await signUp(signupData);
+      const res = await confirmEmail(confirmEmailData);
 
       setMessage(res.data.message);
+
+      navigate('/login');
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -73,20 +74,7 @@ export const SignupPage = () => {
           className="bg-white rounded-xl flex flex-col w-full md:max-w-[60%] lg:min-w-[70%] p-6"
           onSubmit={handleSubmit}
         >
-          <p className="text-3xl font-bold mb-8">Sign Up</p>
-          <label
-            className="text-sm font-bold text-gray-500 mb-2"
-            htmlFor="name"
-          >
-            Name
-          </label>
-          <input
-            className="border-1 px-2 py-1 rounded-md mb-4"
-            id="name"
-            type="text"
-            onChange={handleChange}
-            required
-          />
+          <p className="text-3xl font-bold mb-8">Confirm Email</p>
           <label
             className="text-sm font-bold text-gray-500 mb-2"
             htmlFor="email"
@@ -97,43 +85,46 @@ export const SignupPage = () => {
             className="border-1 px-2 py-1 rounded-md mb-4"
             id="email"
             type="email"
+            value={confirmEmailData.email}
             onChange={handleChange}
             required
           />
           <label
             className="text-sm font-bold text-gray-500 mb-2"
-            htmlFor="password"
+            htmlFor="code"
           >
-            Password
+            Confirmation Code
           </label>
           <input
             className="border-1 px-2 py-1 rounded-md"
-            id="password"
-            type="password"
+            id="code"
+            type="text"
+            value={confirmEmailData.code}
             onChange={handleChange}
             required
           />
-          {error && <p className="text-red-500 mt-2">{error}</p>}
-          {message && <p className="text-green-500 mt-2">{message}</p>}
-          {}
+          {error && <p className="text-red-500">{error}</p>}
+          {message && <p className="text-green-500">{message}</p>}
           <button
-            className={`bg-gray-900 mt-8 text-white py-2 rounded-md ${
+            className={`bg-gray-900 mt-8 text-white py-2 rounded-md cursor-pointer ${
               message
                 ? 'disabled opacity-50 cursor-not-allowed'
                 : 'cursor-pointer'
             }`}
           >
-            Create Account
+            Confirm Email
           </button>
-          <p className="text-xs font-bold text-gray-500 text-center mt-4">
-            Already have an account?{' '}
-            <Link
-              className="underline text-xs font-bold text-gray-500"
-              to={'/'}
-            >
-              Sign In
-            </Link>
-          </p>
+          {message && (
+            <p className="text-xs font-bold text-gray-500 text-center mt-4">
+              Login{' '}
+              <Link
+                className="underline text-xs font-bold text-gray-500"
+                to={'/login'}
+              >
+                Here
+              </Link>
+            </p>
+          )}
         </form>
       </div>
     </div>
