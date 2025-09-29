@@ -125,15 +125,27 @@ export const SignupPage = () => {
           >
             Create Account
           </button>
-          <p className="text-xs font-bold text-gray-500 text-center mt-4">
-            Already have an account?{' '}
-            <Link
-              className="underline text-xs font-bold text-gray-500"
-              to={'/'}
-            >
-              Sign In
-            </Link>
-          </p>
+          {message ? (
+            <p className="text-xs font-bold text-gray-500 text-center mt-4">
+              Cofirm Email{' '}
+              <Link
+                className="underline text-xs font-bold text-gray-500"
+                to={'/confirm-email'}
+              >
+                Here
+              </Link>
+            </p>
+          ) : (
+            <p className="text-xs font-bold text-gray-500 text-center mt-4">
+              Already have an account?{' '}
+              <Link
+                className="underline text-xs font-bold text-gray-500"
+                to={'/'}
+              >
+                Sign In
+              </Link>
+            </p>
+          )}
         </form>
       </div>
     </div>

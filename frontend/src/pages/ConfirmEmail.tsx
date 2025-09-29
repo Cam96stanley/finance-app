@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState, type ChangeEvent } from 'react';
 import { confirmEmail } from '../api/authApi';
 
@@ -13,7 +13,6 @@ export const ConfirmEmailPage = () => {
     code: '',
   });
   const [error, setError] = useState<string | null>(null);
-  const [message, setMessage] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -28,11 +27,9 @@ export const ConfirmEmailPage = () => {
     e.preventDefault();
 
     try {
-      const res = await confirmEmail(confirmEmailData);
+      await confirmEmail(confirmEmailData);
 
-      setMessage(res.data.message);
-
-      navigate('/login');
+      navigate('/');
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -104,27 +101,11 @@ export const ConfirmEmailPage = () => {
             required
           />
           {error && <p className="text-red-500">{error}</p>}
-          {message && <p className="text-green-500">{message}</p>}
           <button
-            className={`bg-gray-900 mt-8 text-white py-2 rounded-md cursor-pointer ${
-              message
-                ? 'disabled opacity-50 cursor-not-allowed'
-                : 'cursor-pointer'
-            }`}
+            className={`bg-gray-900 mt-8 text-white py-2 rounded-md cursor-pointer`}
           >
             Confirm Email
           </button>
-          {message && (
-            <p className="text-xs font-bold text-gray-500 text-center mt-4">
-              Login{' '}
-              <Link
-                className="underline text-xs font-bold text-gray-500"
-                to={'/login'}
-              >
-                Here
-              </Link>
-            </p>
-          )}
         </form>
       </div>
     </div>
