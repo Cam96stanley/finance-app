@@ -29,7 +29,7 @@ export const LoginPage = () => {
     try {
       const res = await signIn(signInData);
 
-      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('token', res.data.tokens.AccessToken);
 
       navigate('/dashboard');
     } catch (error: unknown) {
