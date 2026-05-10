@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Public_Sans } from "next/font/google";
 import "@/ui/styles/globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Providers } from "@/lib/providers";
 import { cn } from "@/lib/utils";
 
 const publicSansHeading = Public_Sans({
@@ -39,7 +40,7 @@ export default function RootLayout({
             },
           }}
         >
-          {children}
+          <Providers>{children}</Providers>
         </ClerkProvider>
       </body>
     </html>

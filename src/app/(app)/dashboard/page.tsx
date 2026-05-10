@@ -1,9 +1,24 @@
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+import Loading from "@/ui/components/Loading";
+
 export default function Page() {
-  const stats: { title: string; total: string }[] = [
-    { title: "Current Balance", total: "4,836.00" },
-    { title: "Income", total: "3,814.25" },
-    { title: "Expenses", total: "1,700.50" },
+  const { data, isLoading } = useQuery({
+    queryKey: ["overview"],
+    queryFn: async () => {
+      const res = await fetch("/api/overview");
+      return res.json();
+    },
+  });
+
+  const stats = [
+    { title: "Current Balance", total: data?.balance ?? 0 },
+    { title: "Income", total: data?.totalIncome ?? 0 },
+    { title: "Expenses", total: data?.totalExpenses ?? 0 },
   ];
+
+  if (isLoading) return <Loading />;
 
   return (
     <div>
