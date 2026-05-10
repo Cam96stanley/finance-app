@@ -1,0 +1,1 @@
+ALTER TABLE `pots` ADD `current_amount` real DEFAULT 0 NOT NULL;

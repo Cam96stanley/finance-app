@@ -1,8 +1,8 @@
 import { getAuth } from "@hono/clerk-auth";
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import { Hono } from "hono";
 import { db } from "../db";
-import { transactions } from "../db/schema";
+import { transactions, pots } from "../db/schema";
 
 const app = new Hono();
 
@@ -28,7 +28,22 @@ app.get("/", async (c) => {
     .filter((t) => t.type === "expense")
     .reduce((acc, t) => acc + t.amount, 0);
 
-  return c.json({ balance, totalIcome, totalExpenses });
+  const recentTransactions = await db.select().from(transactions).where(eq(transactions.userId, auth.userId)).orderBy(desc(transactions.date)).limit(5);
+
+  const potsData = await db.select().from(pots).where(eq(pots.userId, auth.userId)).limit(4);
+
+  const totalSaved = potsData.reduce((acc, p) => acc + p.currentAmount, 0);
+
+  return c.json({
+    balance,
+    totalIcome,
+    totalExpenses,
+    recentTransactions,
+    pots: {
+      totalSaved,
+      items: potsData,
+    }
+  })
 });
 
 export default app;

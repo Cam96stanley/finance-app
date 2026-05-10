@@ -4,9 +4,10 @@ import type { Pot } from "@/lib/types/pot-card";
 
 type PotsCardProps = {
   pots: Pot[];
+  totalSaved: number;
 };
 
-export default function PotsCard({ pots }: PotsCardProps) {
+export default function PotsCard({ pots, totalSaved }: PotsCardProps ) {
   return (
     <div className="bg-white p-8 rounded-xl flex flex-col gap-5">
       <div className="flex justify-between items-center">
@@ -26,17 +27,17 @@ export default function PotsCard({ pots }: PotsCardProps) {
           <TipJarIcon size={40} className="text-green" />
           <div className="flex flex-col gap-2">
             <p className="text-preset-4-rg">Total Saved</p>
-            <p className="text-preset-1">$850</p>
+            <p className="text-preset-1">${totalSaved ?? 0}</p>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-2">
-          {pots.map(({ title, total }) => (
+          {pots.map(({ name, currentAmount }) => (
             <div
-              key={title}
+              key={name}
               className="pl-4 border-l-4 border-green flex flex-col justify-center gap-1"
             >
-              <p className="text-preset-5-rg">{title}</p>
-              <p className="text-preset-4-bd">${total.toLocaleString()}</p>
+              <p className="text-preset-5-rg">{name}</p>
+              <p className="text-preset-4-bd">${currentAmount.toLocaleString()}</p>
             </div>
           ))}
         </div>

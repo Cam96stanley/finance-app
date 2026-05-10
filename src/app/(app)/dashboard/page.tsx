@@ -23,12 +23,10 @@ export default function Page() {
     { title: "Expenses", total: data?.totalExpenses ?? 0 },
   ];
 
-  const pots: Pot[] = [
-    { title: "Savings", total: 159 },
-    { title: "Gift", total: 40 },
-    { title: "Concert Ticket", total: 110 },
-    { title: "New Laptop", total: 10 },
-  ];
+  const pots: Pot[] = data?.pots.items.map((pot: Pot) => ({
+    title: pot.name,
+    total: pot.currentAmount,
+  })) ?? [];
 
   return (
     <div>
@@ -36,7 +34,7 @@ export default function Page() {
         <h1 className="text-preset-1">Overview</h1>
         <BalanceCard stats={stats} />
         <div className="grid grid-cols-2 gap-6">
-          <PotsCard pots={pots} />
+          <PotsCard pots={pots} totalSaved={data?.pots.totalSaved} />
         </div>
       </main>
     </div>

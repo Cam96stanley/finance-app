@@ -25,7 +25,8 @@ export const pots = sqliteTable("pots", {
     .$defaultFn(() => crypto.randomUUID()),
   userId: text("user_id").notNull(),
   name: text("name").notNull(),
-  targetName: real("target_amount").notNull(),
+  targetAmount: real("target_amount").notNull(),
+  currentAmount: real("current_amount").notNull().default(0),
   theme: text("theme", { enum: themes }).notNull().unique(),
   categoryId: text("category_id").references(() => categories.id),
 });
