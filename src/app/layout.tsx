@@ -3,7 +3,6 @@ import { Public_Sans } from "next/font/google";
 import "@/ui/styles/globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
-import { Header } from "../ui/components/Header";
 
 const publicSansHeading = Public_Sans({
   subsets: ["latin"],
@@ -40,7 +39,6 @@ export default function RootLayout({
             },
           }}
         >
-          <Header />
           {children}
         </ClerkProvider>
       </body>

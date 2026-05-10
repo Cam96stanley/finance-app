@@ -1,8 +1,10 @@
-import { ChartPieIcon, PiggyBankIcon, ReceiptIcon } from "@phosphor-icons/react/dist/ssr";
+import {
+  ChartPieIcon,
+  PiggyBankIcon,
+  ReceiptIcon,
+} from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { Button } from "@/ui/primitives/Button";
-
-
 
 export default function Home() {
   return (
@@ -18,9 +20,7 @@ function HeroSection() {
   return (
     <section className="bg-background px-6 pt-20 pb-16 overflow-hidden">
       <div className="max-w-5xl mx-auto flex flex-col items-center text-center">
-        <span
-          className="text-preset-5-bd uppercase tracking-[0.18em] mb-5 inline-block text-green"
-        >
+        <span className="text-preset-5-bd uppercase tracking-[0.18em] mb-5 inline-block text-green">
           Personal Finance
         </span>
 
@@ -64,14 +64,8 @@ function HeroSection() {
 function DashboardPreview() {
   return (
     <div className="mt-16 w-full max-w-2xl mx-auto select-none">
-      <div
-        className="rounded-2xl px-8 py-7 text-left mb-3 bg-primary"
-      >
-        <p
-          className="text-preset-5-rg mb-2 bg-primary"
-        >
-          Current Balance
-        </p>
+      <div className="rounded-2xl px-8 py-7 text-left mb-3 bg-primary">
+        <p className="text-preset-5-rg mb-2 bg-primary">Current Balance</p>
         <p
           style={{
             fontSize: "2.75rem",
@@ -121,9 +115,7 @@ function DashboardPreview() {
           <p className="text-preset-5-bd">Emma Richardson</p>
           <p className="text-preset-5-rg text-muted-foreground">19 Aug 2024</p>
         </div>
-        <p className="text-preset-4-bd text-green">
-          +$75.50
-        </p>
+        <p className="text-preset-4-bd text-green">+$75.50</p>
       </div>
     </div>
   );
@@ -155,9 +147,7 @@ function FeaturesSection() {
     <section className="bg-card py-24 px-6 border-t border-border">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
-          <span
-            className="text-preset-5-bd uppercase tracking-[0.18em] inline-block mb-4 text-green"
-          >
+          <span className="text-preset-5-bd uppercase tracking-[0.18em] inline-block mb-4 text-green">
             Features
           </span>
           <h2 className="text-preset-1" style={{ fontSize: "2rem" }}>
@@ -172,9 +162,7 @@ function FeaturesSection() {
               className="bg-background rounded-xl p-8 border-t-0 border-r-0 border-b-0"
               style={{ borderLeft: `3px solid var(--green)` }}
             >
-              <div className="mb-5 text-green">
-                {f.icon}
-              </div>
+              <div className="mb-5 text-green">{f.icon}</div>
               <h3 className="text-preset-3 mb-3">{f.title}</h3>
               <p className="text-preset-4-rg text-muted-foreground leading-relaxed">
                 {f.description}
