@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { Public_Sans } from "next/font/google";
 import "@/ui/styles/globals.css";
-import { cn } from "@/lib/utils";
 import { ClerkProvider } from "@clerk/nextjs";
+import { cn } from "@/lib/utils";
 import { Header } from "../ui/components/Header";
 
 const publicSansHeading = Public_Sans({
-  subsets:['latin'],
-  variable:'--font-sans'
+  subsets: ["latin"],
+  variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
@@ -23,10 +23,23 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", publicSansHeading.variable, "font-sans")}
+      className={cn(
+        "h-full",
+        "antialiased",
+        publicSansHeading.variable,
+        "font-sans",
+      )}
     >
-      <body className="min-h-full flex flex-col">
-        <ClerkProvider>
+      <body className="h-full flex flex-col">
+        <ClerkProvider
+          appearance={{
+            variables: {
+              colorPrimary: "oklch(0.2425 0.0095 294.85)",
+              colorBackground: "oklch(0.9691 0.0068 67.74)",
+              borderRadius: "0.625rem",
+            },
+          }}
+        >
           <Header />
           {children}
         </ClerkProvider>

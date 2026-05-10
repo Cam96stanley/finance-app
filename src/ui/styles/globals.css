@@ -46,6 +46,21 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
   --color-primary-hover: var(--primary-hover);
+  --color-green: var(--green);
+  --color-yellow: var(--yellow);
+  --color-cyan: var(--cyan);
+  --color-navy: var(--navy);
+  --color-red: var(--red);
+  --color-purple: var(--purple);
+  --color-light-purple: var(--light-purple);
+  --color-turquoise: var(--turquoise);
+  --color-brown: var(--brown);
+  --color-magenta: var(--magenta);
+  --color-blue: var(--blue);
+  --color-navy-grey: var(--navy-grey);
+  --color-army-green: var(--army-green);
+  --color-gold: var(--gold);
+  --color-orange: var(--orange);
 }
 
 :root {
@@ -82,6 +97,21 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   --primary-hover: oklch(0.5182 0.0013 17.2);
+  --green: oklch(0.5356 0.0794 190.54);
+  --yellow: oklch(0.8717 0.0606 63.63);
+  --cyan: oklch(0.794 0.0737 211.41);
+  --navy: oklch(0.4966 0.0253 291.18);
+  --red: oklch(0.5754 0.1685 30.38);
+  --purple: oklch(0.5802 0.1044 297.97);
+  --light-purple: oklch(0.668 0.0969 319.73);
+  --turquoise: oklch(0.5599 0.0396 196.08);
+  --brown: oklch(0.5536 0.0671 49.5);
+  --magenta: oklch(0.5187 0.099 351.49);
+  --blue: oklch(0.5841 0.1005 242.37);
+  --navy-grey: oklch(0.7024 0.0203 255.57);
+  --army-green: oklch(0.6298 0.0714 125.1);
+  --gold: oklch(0.7693 0.1058 94.07);
+  --orange: oklch(0.6161 0.1156 43.33);
 }
 
 .dark {
@@ -125,7 +155,8 @@
   body {
     @apply bg-background text-foreground;
   }
-  button:not(:disabled), [role="button"]:not(:disabled) {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
     cursor: pointer;
   }
   html {
