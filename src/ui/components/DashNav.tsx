@@ -16,10 +16,18 @@ import { cn } from "@/lib/utils";
 
 const navItems: { link: string; Icon: Icon; title: string }[] = [
   { link: "/dashboard", Icon: HouseIcon, title: "Overview" },
-  { link: "/dashboard/transactions", Icon: ArrowsDownUpIcon, title: "Transactions" },
+  {
+    link: "/dashboard/transactions",
+    Icon: ArrowsDownUpIcon,
+    title: "Transactions",
+  },
   { link: "/dashboard/budgets", Icon: ChartDonutIcon, title: "Budgets" },
   { link: "/dashboard/pots", Icon: TipJarIcon, title: "Pots" },
-  { link: "/dashboard/recurring-bills", Icon: ReceiptIcon, title: "Recurring Bills" },
+  {
+    link: "/dashboard/recurring-bills",
+    Icon: ReceiptIcon,
+    title: "Recurring Bills",
+  },
 ];
 
 export default function DashNav() {
