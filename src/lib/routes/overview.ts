@@ -1,8 +1,8 @@
-import { getAuth } from "@hono/clerk-auth";
+import { getAuth } from "@clerk/hono";
 import { desc, eq } from "drizzle-orm";
 import { Hono } from "hono";
 import { db } from "../db";
-import { budgets, categories, pots, transactions } from "../db/schema";
+import { bills, budgets, categories, pots, transactions } from "../db/schema";
 
 const app = new Hono();
 
@@ -63,6 +63,23 @@ app.get("/", async (c) => {
 
   const totalBudget = budgetsData.reduce((acc, b) => acc + b.maxSpending, 0);
 
+  const billsData = await db
+    .select()
+    .from(bills)
+    .where(eq(bills.userId, auth.userId));
+
+  const paidBills = billsData
+    .filter((b) => b.status === "paid")
+    .reduce((acc, b) => acc + b.amount, 0);
+
+  const totalUpcoming = billsData
+    .filter((b) => b.status === "pending")
+    .reduce((acc, b) => b.amount, 0);
+
+  const dueSoon = billsData
+    .filter((b) => b.status === "overdue")
+    .reduce((acc, b) => acc + b.amount, 0);
+
   return c.json({
     balance,
     totalIcome,
@@ -75,6 +92,11 @@ app.get("/", async (c) => {
     budgets: {
       totalBudget,
       items: budgetsData,
+    },
+    recurringBills: {
+      paidBills,
+      totalUpcoming,
+      dueSoon,
     },
   });
 });

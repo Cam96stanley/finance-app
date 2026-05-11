@@ -1,4 +1,4 @@
-import { CaretRightIcon } from "@phosphor-icons/react/dist/ssr";
+import { CaretRightIcon, ChartDonutIcon } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { Pie, PieChart, Sector } from "recharts";
 import type { Budget } from "@/lib/types";
@@ -26,7 +26,10 @@ const themeColors: Record<string, string> = {
   orange: "#BE6C49",
 };
 
-export default function BudgetsCard({ budgets, totalBudget = 0 }: BudgetCardProps) {
+export default function BudgetsCard({
+  budgets,
+  totalBudget = 0,
+}: BudgetCardProps) {
   const totalSpent = budgets.reduce((acc, b) => acc + b.currentSpending, 0);
 
   const chartData = budgets.map((b) => ({
@@ -36,55 +39,68 @@ export default function BudgetsCard({ budgets, totalBudget = 0 }: BudgetCardProp
   }));
 
   return (
-    <div className="bg-white rounded-xl p-8">
+    <div className="bg-white rounded-xl p-8 flex flex-col gap-5">
       <div className="flex justify-between items-center">
         <p className="text-preset-2">Budgets</p>
         <Link
           className="flex items-center gap-2 text-preset-4-rg hover:underline"
-          href={"/budgets"}
+          href="/budgets"
         >
-          See Details{" "}
-          <span>
-            <CaretRightIcon size={16} />
-          </span>
+          See Details
+          <CaretRightIcon size={16} />
         </Link>
       </div>
-      <div className="relative">
-        <PieChart width={240} height={240}>
-          <Pie
-            data={chartData}
-            cx={110}
-            cy={110}
-            innerRadius={70}
-            outerRadius={110}
-            dataKey={"value"}
-            strokeWidth={0}
-            fill="#ccc"
-            style={{ outline: "none" }}
-          >
-            {chartData.map((entry, i) => (
-              <Sector key={i} fill={entry.color} />
-            ))}
-          </Pie>
-        </PieChart>
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <p className="text-preset-1">${totalSpent.toFixed(2)}</p>
-          <p className="text-preset-5-rg">of ${totalBudget.toFixed(2)} limit</p>
+      {budgets.length === 0 ? (
+        <div className="flex flex-col items-center justify-center flex-1 py-12 gap-2 text-muted-foreground">
+          <ChartDonutIcon size={32} />
+          <p className="text-preset-4-bd">No budgets yet</p>
+          <p className="text-preset-5-rg">Your budgets will appear here</p>
         </div>
-      </div>
-      <div className="flex flex-col gap-4">
-        {budgets.map((budget) => (
-          <div
-            key={budget.category}
-            className="pl-4 border-l-4 flex flex-col"
-            style={{ borderColor: themeColors[budget.theme] ?? "#ccc" }}
-          >
-            <p className="flex flex-col gap-4">${budget.category}</p>
-            <p className="text-preset-5-rg">{budget.category}</p>
-            <p className="text-preset-4-bd">${budget.maxSpending.toFixed(2)}</p>
+      ) : (
+        <>
+          <div className="relative">
+            <PieChart width={240} height={240}>
+              <Pie
+                data={chartData}
+                cx={110}
+                cy={110}
+                innerRadius={70}
+                outerRadius={110}
+                dataKey="value"
+                strokeWidth={0}
+                fill="#ccc"
+                style={{ outline: "none" }}
+              >
+                {chartData.map((entry, i) => (
+                  <Sector key={i} fill={entry.color} />
+                ))}
+              </Pie>
+            </PieChart>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <p className="text-preset-1">${totalSpent.toFixed(2)}</p>
+              <p className="text-preset-5-rg">
+                of ${totalBudget.toFixed(2)} limit
+              </p>
+            </div>
           </div>
-        ))}
-      </div>
+          <div className="flex flex-col gap-4">
+            {budgets.map((budget) => (
+              <div
+                key={budget.category}
+                className="pl-4 border-l-4 flex flex-col"
+                style={{ borderColor: themeColors[budget.theme] ?? "#ccc" }}
+              >
+                <p className="text-preset-5-rg text-muted-foreground">
+                  {budget.category}
+                </p>
+                <p className="text-preset-4-bd">
+                  ${budget.maxSpending.toFixed(2)}
+                </p>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }

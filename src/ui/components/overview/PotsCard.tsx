@@ -9,41 +9,47 @@ type PotsCardProps = {
 
 export default function PotsCard({ pots, totalSaved }: PotsCardProps) {
   return (
-    <div className="bg-white p-8 rounded-xl flex flex-col gap-5">
+    <div className="bg-white p-8 rounded-xl flex flex-col gap-5 flex-1">
       <div className="flex justify-between items-center">
         <p className="text-preset-2">Pots</p>
         <Link
           className="flex items-center gap-2 text-preset-4-rg hover:underline"
-          href={"/pots"}
+          href="/pots"
         >
-          See Details{" "}
-          <span>
-            <CaretRightIcon size={16} />
-          </span>
+          See Details
+          <CaretRightIcon size={16} />
         </Link>
       </div>
-      <div className="grid grid-cols-2 gap-5">
-        <div className="bg-secondary px-4 py-5 rounded-xl flex gap-4 items-center">
-          <TipJarIcon size={40} className="text-green" />
-          <div className="flex flex-col gap-2">
-            <p className="text-preset-4-rg">Total Saved</p>
-            <p className="text-preset-1">${totalSaved ?? 0}</p>
+      {pots.length === 0 ? (
+        <div className="flex flex-col items-center justify-center flex-1 gap-2 text-muted-foreground">
+          <TipJarIcon size={32} />
+          <p className="text-preset-4-bd">No pots yet</p>
+          <p className="text-preset-5-rg">Your savings pots will appear here</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-5">
+          <div className="bg-secondary px-4 py-5 rounded-xl flex gap-4 items-center">
+            <TipJarIcon size={40} className="text-green" />
+            <div className="flex flex-col gap-2">
+              <p className="text-preset-4-rg">Total Saved</p>
+              <p className="text-preset-1">${totalSaved ?? 0}</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            {pots.map(({ name, currentAmount }) => (
+              <div
+                key={name}
+                className="pl-4 border-l-4 border-green flex flex-col justify-center gap-1"
+              >
+                <p className="text-preset-5-rg">{name}</p>
+                <p className="text-preset-4-bd">
+                  ${currentAmount.toLocaleString()}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-2">
-          {pots.map(({ name, currentAmount }) => (
-            <div
-              key={name}
-              className="pl-4 border-l-4 border-green flex flex-col justify-center gap-1"
-            >
-              <p className="text-preset-5-rg">{name}</p>
-              <p className="text-preset-4-bd">
-                ${currentAmount.toLocaleString()}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
+      )}
     </div>
   );
 }

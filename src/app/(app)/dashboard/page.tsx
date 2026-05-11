@@ -1,11 +1,18 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import type { Budget, Pot, Stat, Transaction } from "@/lib/types";
+import type {
+  Budget,
+  Pot,
+  RecurringBill,
+  Stat,
+  Transaction,
+} from "@/lib/types";
 import Loading from "@/ui/components/Loading";
 import BalanceCard from "@/ui/components/overview/BalanceCard";
 import BudgetsCard from "@/ui/components/overview/BudgetsCard";
 import PotsCard from "@/ui/components/overview/PotsCard";
+import RecurringBillCard from "@/ui/components/overview/RecurringBillCard";
 import TransactionCard from "@/ui/components/overview/TransactionCard";
 
 export default function Page() {
@@ -40,6 +47,24 @@ export default function Page() {
       type: transaction.type,
     })) ?? [];
 
+  const recurringBills: RecurringBill[] = [
+    {
+      title: "Paid Bills",
+      total: data?.recurringBills.paidBills,
+      color: "border-green",
+    },
+    {
+      title: "Total Upcoming",
+      total: data?.recurringBills.totalUpcoming,
+      color: "border-yellow",
+    },
+    {
+      title: "Due soon",
+      total: data?.recurringBills.dueSoon,
+      color: "border-cyan",
+    },
+  ];
+
   const budgets: Budget[] =
     data?.budgets.items.map((budget: Budget) => ({
       maxSpending: budget.maxSpending,
@@ -60,6 +85,7 @@ export default function Page() {
           </div>
           <div className="flex flex-col gap-6">
             <BudgetsCard budgets={budgets} />
+            <RecurringBillCard recurringBills={recurringBills} />
           </div>
         </div>
       </main>

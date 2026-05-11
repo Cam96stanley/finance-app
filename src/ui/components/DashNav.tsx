@@ -16,17 +16,17 @@ import { cn } from "@/lib/utils";
 
 const navItems: { link: string; Icon: Icon; title: string }[] = [
   { link: "/dashboard", Icon: HouseIcon, title: "Overview" },
-  { link: "/transactions", Icon: ArrowsDownUpIcon, title: "Transactions" },
-  { link: "/budgets", Icon: ChartDonutIcon, title: "Budgets" },
-  { link: "/pots", Icon: TipJarIcon, title: "Pots" },
-  { link: "/recurring-bills", Icon: ReceiptIcon, title: "Recurring Bills" },
+  { link: "/dashboard/transactions", Icon: ArrowsDownUpIcon, title: "Transactions" },
+  { link: "/dashboard/budgets", Icon: ChartDonutIcon, title: "Budgets" },
+  { link: "/dashboard/pots", Icon: TipJarIcon, title: "Pots" },
+  { link: "/dashboard/recurring-bills", Icon: ReceiptIcon, title: "Recurring Bills" },
 ];
 
 export default function DashNav() {
   const pathname = usePathname();
 
   return (
-    <div className="bg-primary h-full w-75 rounded-r-xl flex flex-col">
+    <div className="bg-primary min-h-full w-75 rounded-r-xl flex flex-col">
       <div className="py-10 px-8">
         <Image src={"/logo.svg"} alt="" width={121} height={21} />
       </div>
