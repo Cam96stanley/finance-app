@@ -1,0 +1,1 @@
+ALTER TABLE `budgets` ADD `current_spending` real DEFAULT 0 NOT NULL;

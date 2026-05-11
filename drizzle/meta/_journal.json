@@ -15,6 +15,13 @@
       "when": 1778454196098,
       "tag": "0001_fluffy_chimera",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1778464357078,
+      "tag": "0002_lonely_fallen_one",
+      "breakpoints": true
     }
   ]
 }

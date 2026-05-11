@@ -1,9 +1,10 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import type { Pot, Stat, Transaction } from "@/lib/types";
+import type { Budget, Pot, Stat, Transaction } from "@/lib/types";
 import Loading from "@/ui/components/Loading";
 import BalanceCard from "@/ui/components/overview/BalanceCard";
+import BudgetsCard from "@/ui/components/overview/BudgetsCard";
 import PotsCard from "@/ui/components/overview/PotsCard";
 import TransactionCard from "@/ui/components/overview/TransactionCard";
 
@@ -30,13 +31,22 @@ export default function Page() {
       total: pot.currentAmount,
     })) ?? [];
 
-  const transactions: Transaction[] = data?.recentTransactions.map((transaction: Transaction) => ({
-    id: transaction.id,
-    counterParty: transaction.counterParty,
-    amount: transaction.amount,
-    date: transaction.date,
-    type: transaction.type
-  }))
+  const transactions: Transaction[] =
+    data?.recentTransactions.map((transaction: Transaction) => ({
+      id: transaction.id,
+      counterParty: transaction.counterParty,
+      amount: transaction.amount,
+      date: transaction.date,
+      type: transaction.type,
+    })) ?? [];
+
+  const budgets: Budget[] =
+    data?.budgets.items.map((budget: Budget) => ({
+      maxSpending: budget.maxSpending,
+      currentSpending: budget.currentSpending,
+      theme: budget.theme,
+      category: budget.category,
+    })) ?? [];
 
   return (
     <div>
@@ -46,7 +56,10 @@ export default function Page() {
         <div className="grid grid-cols-2 gap-6">
           <div className="flex flex-col gap-6">
             <PotsCard pots={pots} totalSaved={data?.pots.totalSaved} />
-            <TransactionCard transactions={transactions}/>
+            <TransactionCard transactions={transactions} />
+          </div>
+          <div className="flex flex-col gap-6">
+            <BudgetsCard budgets={budgets} />
           </div>
         </div>
       </main>

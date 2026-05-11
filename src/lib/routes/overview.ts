@@ -2,7 +2,7 @@ import { getAuth } from "@hono/clerk-auth";
 import { desc, eq } from "drizzle-orm";
 import { Hono } from "hono";
 import { db } from "../db";
-import { pots, transactions } from "../db/schema";
+import { budgets, categories, pots, transactions } from "../db/schema";
 
 const app = new Hono();
 
@@ -49,6 +49,20 @@ app.get("/", async (c) => {
 
   const totalSaved = potsData.reduce((acc, p) => acc + p.currentAmount, 0);
 
+  const budgetsData = await db
+    .select({
+      maxSpending: budgets.maxSpending,
+      currentSpending: budgets.currentSpending,
+      theme: budgets.theme,
+      category: categories.name,
+    })
+    .from(budgets)
+    .leftJoin(categories, eq(budgets.categoryId, categories.id))
+    .where(eq(budgets.userId, auth.userId))
+    .limit(4);
+
+  const totalBudget = budgetsData.reduce((acc, b) => acc + b.maxSpending, 0);
+
   return c.json({
     balance,
     totalIcome,
@@ -57,6 +71,10 @@ app.get("/", async (c) => {
     pots: {
       totalSaved,
       items: potsData,
+    },
+    budgets: {
+      totalBudget,
+      items: budgetsData,
     },
   });
 });

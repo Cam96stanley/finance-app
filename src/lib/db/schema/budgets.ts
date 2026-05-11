@@ -25,6 +25,7 @@ export const budgets = sqliteTable("budgets", {
     .$defaultFn(() => crypto.randomUUID()),
   userId: text("user_id").notNull(),
   maxSpending: real("max_spending").notNull(),
+  currentSpending: real("current_spending").notNull().default(0),
   theme: text("theme", { enum: themes }).notNull().unique(),
   categoryId: text("category_id")
     .notNull()
