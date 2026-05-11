@@ -1,8 +1,8 @@
 import { getAuth } from "@hono/clerk-auth";
-import { eq, desc } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { Hono } from "hono";
 import { db } from "../db";
-import { transactions, pots } from "../db/schema";
+import { pots, transactions } from "../db/schema";
 
 const app = new Hono();
 
@@ -21,16 +21,31 @@ app.get("/", async (c) => {
   }, 0);
 
   const totalIcome = data
-    .filter((t) => t.type === "expense")
+    .filter((t) => t.type === "income")
     .reduce((acc, t) => acc + t.amount, 0);
 
   const totalExpenses = data
     .filter((t) => t.type === "expense")
     .reduce((acc, t) => acc + t.amount, 0);
 
-  const recentTransactions = await db.select().from(transactions).where(eq(transactions.userId, auth.userId)).orderBy(desc(transactions.date)).limit(5);
+  const recentTransactions = await db
+    .select({
+      id: transactions.id,
+      counterParty: transactions.counterParty,
+      amount: transactions.amount,
+      date: transactions.date,
+      type: transactions.type,
+    })
+    .from(transactions)
+    .where(eq(transactions.userId, auth.userId))
+    .orderBy(desc(transactions.date))
+    .limit(5);
 
-  const potsData = await db.select().from(pots).where(eq(pots.userId, auth.userId)).limit(4);
+  const potsData = await db
+    .select()
+    .from(pots)
+    .where(eq(pots.userId, auth.userId))
+    .limit(4);
 
   const totalSaved = potsData.reduce((acc, p) => acc + p.currentAmount, 0);
 
@@ -42,8 +57,8 @@ app.get("/", async (c) => {
     pots: {
       totalSaved,
       items: potsData,
-    }
-  })
+    },
+  });
 });
 
 export default app;

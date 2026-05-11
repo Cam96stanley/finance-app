@@ -7,13 +7,13 @@ type PotsCardProps = {
   totalSaved: number;
 };
 
-export default function PotsCard({ pots, totalSaved }: PotsCardProps ) {
+export default function PotsCard({ pots, totalSaved }: PotsCardProps) {
   return (
     <div className="bg-white p-8 rounded-xl flex flex-col gap-5">
       <div className="flex justify-between items-center">
         <p className="text-preset-2">Pots</p>
         <Link
-          className="flex items-center gap-2 text-preset-4-rg"
+          className="flex items-center gap-2 text-preset-4-rg hover:underline"
           href={"/pots"}
         >
           See Details{" "}
@@ -37,7 +37,9 @@ export default function PotsCard({ pots, totalSaved }: PotsCardProps ) {
               className="pl-4 border-l-4 border-green flex flex-col justify-center gap-1"
             >
               <p className="text-preset-5-rg">{name}</p>
-              <p className="text-preset-4-bd">${currentAmount.toLocaleString()}</p>
+              <p className="text-preset-4-bd">
+                ${currentAmount.toLocaleString()}
+              </p>
             </div>
           ))}
         </div>

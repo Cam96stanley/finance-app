@@ -1,4 +1,4 @@
 export type Pot = {
-  title: string;
-  total: number;
+  name: string;
+  currentAmount: number;
 };

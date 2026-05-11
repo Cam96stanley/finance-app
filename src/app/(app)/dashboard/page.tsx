@@ -1,10 +1,11 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import type { Pot, Stat } from "@/lib/types";
+import type { Pot, Stat, Transaction } from "@/lib/types";
 import Loading from "@/ui/components/Loading";
 import BalanceCard from "@/ui/components/overview/BalanceCard";
 import PotsCard from "@/ui/components/overview/PotsCard";
+import TransactionCard from "@/ui/components/overview/TransactionCard";
 
 export default function Page() {
   const { data, isLoading } = useQuery({
@@ -23,10 +24,19 @@ export default function Page() {
     { title: "Expenses", total: data?.totalExpenses ?? 0 },
   ];
 
-  const pots: Pot[] = data?.pots.items.map((pot: Pot) => ({
-    title: pot.name,
-    total: pot.currentAmount,
-  })) ?? [];
+  const pots: Pot[] =
+    data?.pots.items.map((pot: Pot) => ({
+      title: pot.name,
+      total: pot.currentAmount,
+    })) ?? [];
+
+  const transactions: Transaction[] = data?.recentTransactions.map((transaction: Transaction) => ({
+    id: transaction.id,
+    counterParty: transaction.counterParty,
+    amount: transaction.amount,
+    date: transaction.date,
+    type: transaction.type
+  }))
 
   return (
     <div>
@@ -34,7 +44,10 @@ export default function Page() {
         <h1 className="text-preset-1">Overview</h1>
         <BalanceCard stats={stats} />
         <div className="grid grid-cols-2 gap-6">
-          <PotsCard pots={pots} totalSaved={data?.pots.totalSaved} />
+          <div className="flex flex-col gap-6">
+            <PotsCard pots={pots} totalSaved={data?.pots.totalSaved} />
+            <TransactionCard transactions={transactions}/>
+          </div>
         </div>
       </main>
     </div>
