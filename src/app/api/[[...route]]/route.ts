@@ -3,6 +3,7 @@ import { Hono } from "hono";
 import { handle } from "hono/vercel";
 import budgets from "@/lib/routes/budgets";
 import overview from "@/lib/routes/overview";
+import pots from "@/lib/routes/pots";
 import transactions from "@/lib/routes/transactions";
 
 const app = new Hono().basePath("/api");
@@ -18,6 +19,7 @@ app.use(
 app.route("/transactions", transactions);
 app.route("/overview", overview);
 app.route("/budgets", budgets);
+app.route("/pots", pots);
 
 export const GET = handle(app);
 export const POST = handle(app);

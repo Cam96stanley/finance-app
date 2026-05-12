@@ -29,7 +29,10 @@ type BudgetCardProps = {
   transactions: Transaction[];
 };
 
-export default function BudgetItemCard({ budget, transactions }: BudgetCardProps) {
+export default function BudgetItemCard({
+  budget,
+  transactions,
+}: BudgetCardProps) {
   const color = themeColors[budget.theme] ?? "#ccc";
   const percentage = Math.min(
     (budget.currentSpending / budget.maxSpending) * 100,

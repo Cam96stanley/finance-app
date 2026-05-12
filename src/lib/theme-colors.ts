@@ -1,0 +1,17 @@
+export const themeColorMap: Record<string, string> = {
+  green: "var(--green)",
+  yellow: "var(--yellow)",
+  cyan: "var(--cyan)",
+  navy: "var(--navy)",
+  red: "var(--red)",
+  purple: "var(--purple)",
+  "light-purple": "var(--light-purple)",
+  turquoise: "var(--turquoise)",
+  brown: "var(--brown)",
+  magenta: "var(--magenta)",
+  blue: "var(--blue)",
+  "navy-grey": "var(--navy-grey)",
+  "army-green": "var(--army-green)",
+  gold: "var(--gold)",
+  orange: "var(--orange)",
+}

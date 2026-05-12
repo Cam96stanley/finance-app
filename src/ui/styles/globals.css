@@ -214,3 +214,7 @@
     font-weight: 700;
   }
 }
+
+[data-slot="progress-indicator"] {
+  background-color: var(--progress-color);
+}
