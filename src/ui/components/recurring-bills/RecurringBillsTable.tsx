@@ -1,6 +1,6 @@
 "use client";
 
-import { MagnifyingGlassIcon } from "@phosphor-icons/react";
+import { MagnifyingGlassIcon, ReceiptIcon } from "@phosphor-icons/react";
 import {
   type ColumnDef,
   flexRender,
@@ -88,6 +88,7 @@ export default function RecurringBillsTable<TData>({
             <tr>
               <td colSpan={columns.length} className="text-center py-12">
                 <div className="flex flex-col items-center gap-2 text-muted-foreground">
+                  <ReceiptIcon size={48} />
                   <p className="text-preset-4-bd">No bills found</p>
                   <p className="text-preset-5-rg">
                     Your recurring bills will apear here

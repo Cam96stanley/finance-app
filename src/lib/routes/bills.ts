@@ -17,7 +17,32 @@ app.get("/", async (c) => {
     .where(eq(bills.userId, auth.userId))
     .orderBy(desc(bills.dueDate));
 
-  return c.json(data);
+  const totalBills = data.reduce((acc, b) => acc + b.amount, 0);
+
+  const paidBills = data.filter((b) => b.status === "paid");
+  const pendingBills = data.filter((b) => b.status === "pending");
+  const overdueBills = data.filter((b) => b.status === "overdue");
+
+  const summary = {
+    paid: {
+      count: paidBills.length,
+      total: paidBills.reduce((acc, b) => acc + b.amount, 0),
+    },
+    upcoming: {
+      count: pendingBills.length,
+      total: pendingBills.reduce((acc, b) => acc + b.amount, 0),
+    },
+    dueSoon: {
+      count: overdueBills.length,
+      total: overdueBills.reduce((acc, b) => acc + b.amount, 0),
+    }
+  }
+
+  return c.json({
+    bills: data,
+    totalBills,
+    summary,
+  });
 });
 
 export default app;
