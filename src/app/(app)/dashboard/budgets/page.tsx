@@ -1,10 +1,10 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import type { Budget } from "@/lib/types";
 import BudgetItemCard from "@/ui/components/budgets/BudgetItemCard";
 import BudgetSummaryCard from "@/ui/components/budgets/BudgetSummaryCard";
 import Loading from "@/ui/components/Loading";
+import { Button } from "@/ui/primitives/Button";
 
 export default function Page() {
   const { data, isLoading } = useQuery({
@@ -26,7 +26,10 @@ export default function Page() {
   return (
     <div>
       <main className="px-10 py-8">
-        <h1 className="text-preset-1 pb-8">Budgets</h1>
+        <div className="flex justify-between">
+          <h1 className="text-preset-1 pb-8">Budgets</h1>
+          <Button>+ Add New Budget</Button>
+        </div>
         <div className="grid grid-cols-2 gap-6">
           <div className="flex flex-col">
             <BudgetSummaryCard budgets={budgets} totalBudget={totalBudget} />
