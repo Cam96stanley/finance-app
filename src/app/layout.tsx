@@ -12,7 +12,8 @@ const publicSansHeading = Public_Sans({
 
 export const metadata: Metadata = {
   title: "FinDash",
-  description: "Track your spending, manage budgets, and take control of your finances — all in one place.",
+  description:
+    "Track your spending, manage budgets, and take control of your finances — all in one place.",
 };
 
 export default function RootLayout({
