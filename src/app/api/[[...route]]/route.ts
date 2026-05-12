@@ -1,6 +1,7 @@
 import { clerkMiddleware } from "@clerk/hono";
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
+import bills from "@/lib/routes/bills";
 import budgets from "@/lib/routes/budgets";
 import overview from "@/lib/routes/overview";
 import pots from "@/lib/routes/pots";
@@ -20,6 +21,7 @@ app.route("/transactions", transactions);
 app.route("/overview", overview);
 app.route("/budgets", budgets);
 app.route("/pots", pots);
+app.route("/bills", bills);
 
 export const GET = handle(app);
 export const POST = handle(app);

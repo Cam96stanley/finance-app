@@ -23,9 +23,7 @@ export default function Page() {
       <main className="px-10 py-8">
         <div className="flex justify-between">
           <h1 className="text-preset-1 pb-8">Pots</h1>
-          <Button>
-            + Add New Pot
-          </Button>
+          <Button>+ Add New Pot</Button>
         </div>
         <div className="grid grid-cols-2 gap-6">
           {pots.map((pot: any) => (

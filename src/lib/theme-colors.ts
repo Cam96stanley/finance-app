@@ -14,4 +14,4 @@ export const themeColorMap: Record<string, string> = {
   "army-green": "var(--army-green)",
   gold: "var(--gold)",
   orange: "var(--orange)",
-}
+};
